@@ -5,13 +5,13 @@ namespace SeleniumNunitExample
     public class Tests
     {
         IWebDriver driver = new ChromeDriver();
-        [SetUp]
+      //  [SetUp]
         public void Setup()
         {
            
             driver.Url = "https://www.google.com/";
         }
-
+        [Ignore("other test")]
         [Test]
         public void CheckForTitle()
         {
@@ -21,14 +21,15 @@ namespace SeleniumNunitExample
             
 
         }
-       [Test] 
+        [Test] 
+        [Ignore("other test")]
         public void Test2()
         {
             driver.FindElement(By.Id("APjFqb")).SendKeys("hello");
            // driver.FindElement(By.Id("APjFqb")).Click();
             Thread.Sleep(10000);
         }
-        [TearDown]
+      //  [TearDown]
         public void Close()
         {
             driver.Close();

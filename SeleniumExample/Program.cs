@@ -4,7 +4,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using SeleniumExample;
-
+/*
 GHPTests gHPTests = new GHPTests();
 gHPTests.InitializeChromedriver();
 try
@@ -50,4 +50,43 @@ catch (AssertionException)
 {
     Console.WriteLine("FAIL");
 }
+gHPTests.Destruct();*/
+
+AmazonTest gHPTests = new AmazonTest();
+gHPTests.InitializeChromedriver();
+try
+{
+    /* gHPTests.TitleTest();
+     Console.WriteLine("passed");
+     gHPTests.LogoClickTest();
+     gHPTests.ProductSearchTest();
+     gHPTests.ReloadHomePage();
+     gHPTests.TodaysDealTest();*/
+    // gHPTests.SignInAccountListTest();
+    gHPTests.SearchAndFilterProductByBrand();
+    gHPTests.SortBySelectTest();
+
+}
+catch (AssertionException)
+{
+    Console.WriteLine("FAIL");
+}
+catch(NoSuchElementException ex)
+{
+    Console.WriteLine(ex.Message);
+}
 gHPTests.Destruct();
+/*
+gHPTests.InitializeEdgedriver();
+try
+{
+    gHPTests.TitleTest();
+    Console.WriteLine("passed");
+   gHPTests.ProductSearchTest();
+
+}
+catch (AssertionException)
+{
+    Console.WriteLine("FAIL");
+}
+gHPTests.Destruct();*/
