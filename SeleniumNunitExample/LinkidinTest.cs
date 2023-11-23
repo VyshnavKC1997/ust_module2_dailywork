@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium.Support.UI;
+﻿using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace SeleniumNunitExample
         [Category("Load testing")]
         public void LoginTest()
         {
-           
+          
             WebDriverWait wau = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
           
             IWebElement emailInput = wau.Until(ExpectedConditions.ElementIsVisible(By.Id("session_key")));
@@ -69,17 +70,22 @@ namespace SeleniumNunitExample
             emailInput.SendKeys(a);
             password.SendKeys(b);
             Thread.Sleep(2000);
+           // TakeScreenShot();
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            
             ClearForm(emailInput, password);
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", driver.FindElement(By.XPath("//button[@type='submit']")));
             Thread.Sleep(2000);
-       /*     emailInput.SendKeys(a);
-            password.SendKeys(b);
-            Thread.Sleep(2000);
-            ClearForm(emailInput, password);
-            Thread.Sleep(2000);
-            emailInput.SendKeys(a);
-            password.SendKeys(b);
-            ClearForm(emailInput, password);*/
-           
+            js.ExecuteScript("arguments[0].click();", driver.FindElement(By.XPath("//button[@type='submit']")));
+            /*     emailInput.SendKeys(a);
+                 password.SendKeys(b);
+                 Thread.Sleep(2000);
+                 ClearForm(emailInput, password);
+                 Thread.Sleep(2000);
+                 emailInput.SendKeys(a);
+                 password.SendKeys(b);
+                 ClearForm(emailInput, password);*/
+
         }
         void ClearForm(IWebElement element,IWebElement element1)
         {
@@ -98,6 +104,31 @@ namespace SeleniumNunitExample
 
             };
         }
+        public void TakeScreenShot()
+        {
+            ITakesScreenshot screenshot = (ITakesScreenshot)driver;
+            Screenshot screenshotMethod = screenshot.GetScreenshot();
+            string currDir = Directory.GetParent("@../../../").FullName;
+            string filePath=currDir+"/ScreenShots/screenshotMethod_"+DateTime.Now.ToString("yyyyMMdd_HHmmss")+".png";
+            screenshotMethod.SaveAsFile(filePath);
+        }
+        [Test]
+        public void TestingTextBox()
+        {
+            DefaultWait<IWebDriver> defaultWait = new DefaultWait<IWebDriver>(driver);
+            defaultWait.Timeout = TimeSpan.FromSeconds(5);
+            defaultWait.PollingInterval = TimeSpan.FromMilliseconds(100);
+            defaultWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
+            defaultWait.Message = "no such element";
+
+            IWebElement emailInput = defaultWait.Until(d => d.FindElement(By.Id("session_key")));
+
+            Actions actions = new Actions(driver);
+            Action newaction = () => actions.MoveToElement(emailInput).KeyUp(Keys.Shift).Click().SendKeys(emailInput, "adhsjsd").Build().Perform();
+            newaction.Invoke();
+            Thread.Sleep(5000);
+        }
+
 
     }
 }
