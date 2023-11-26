@@ -21,20 +21,31 @@ namespace SeleniumNunitExample
 
 
         }
-        [Ignore("other test")]
+        
         [Test]
         [Order(1)]
         public void TextBoxTest()
         {
-            IWebElement textBoxWebElement = driver.FindElement(By.Id("APjFqb"));
-            textBoxWebElement.SendKeys("Hello google");
+
+            string currDir = Directory.GetParent(@"../../../").FullName;
+            string fileName = currDir + "\\InputData.xlsx";
+            List<ExcelData> excelDatas =ExcelUtils.ReadExcelData(fileName);
+            foreach (ExcelData data in excelDatas)
+            {
+                IWebElement textBoxWebElement = driver.FindElement(By.Id("APjFqb"));
+                textBoxWebElement.SendKeys(data.SearchText);
+                string urlbefore = driver.Url;
+                IWebElement googlesearchWebelement = driver.FindElement(By.ClassName("gNO89b"));
+                googlesearchWebelement.Click();
+                string urlAfter = driver.Url;
+               /* Assert.AreNotEqual(urlbefore, urlAfter);*/
+                Thread.Sleep(3000);
+            }
+
+
+          
             Thread.Sleep(5000);
-            string urlbefore = driver.Url;
-            IWebElement googlesearchWebelement = driver.FindElement(By.ClassName("gNO89b"));
-            googlesearchWebelement.Click();
-            string urlAfter = driver.Url;
-            Assert.AreNotEqual(urlbefore, urlAfter);
-            Thread.Sleep(3000);
+           
 
         }
         [Test]

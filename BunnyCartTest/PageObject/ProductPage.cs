@@ -26,7 +26,7 @@ namespace BunnyCartTest.PageObject
         {
             return ProductTitle.Text;   
         }
-        public 
+   
     }
 
    
