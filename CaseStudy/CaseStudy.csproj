@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ExtentReports\" />
     <Folder Include="ScreenShot\" />
   </ItemGroup>
 

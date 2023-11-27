@@ -1,4 +1,5 @@
 ﻿using AventStack.ExtentReports;
+using AventStack.ExtentReports.Reporter;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
@@ -14,6 +15,9 @@ namespace CaseStudy.Utilities
     {
         Dictionary<string, string> properties;
         public IWebDriver driver;
+        public ExtentReports extent;
+        ExtentSparkReporter sparkReporter;
+        public ExtentTest test;
 
         public void ExtentReport()
         {
@@ -66,6 +70,11 @@ namespace CaseStudy.Utilities
         [OneTimeSetUp]
         public void InitializeBrowser()
         {
+            String currdir = Directory.GetParent(@"../../../").FullName;
+            extent = new ExtentReports();
+            sparkReporter = new ExtentSparkReporter(currdir + "/ExtentReports/extent-report"
+                + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".html");
+            extent.AttachReporter(sparkReporter);
             ReadConfigProperties();
             if (properties["browser"].ToLower() == "chrome")
             {
@@ -81,6 +90,7 @@ namespace CaseStudy.Utilities
         [OneTimeTearDown]
         public void Cleanup()
         {
+            extent.Flush();
             driver.Quit();
         }
     }

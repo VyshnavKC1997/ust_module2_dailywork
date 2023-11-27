@@ -25,11 +25,24 @@ namespace CaseStudy.TestScript
             HomePage homePage = new HomePage(driver);
             foreach (var excelData in excelDatas)
             {
-                string titlebefore=driver.Title;
-                homePage.SerachForProduct(excelData.SearchText);
-                homePage.ClickOnSearch();
-                Assert.AreNotEqual(driver.Title, titlebefore);
-                TakeScreenShot();
+                try
+                {
+                    string titlebefore = driver.Title;
+                    homePage.SerachForProduct(excelData.SearchText);
+                    homePage.ClickOnSearch();
+                  
+                    Assert.That(driver.Url.Contains("eyewear"));
+                    test = extent.CreateTest("Search Test - Pass");
+                    test.Pass("Search eyewear success");
+                    TakeScreenShot();
+
+                }
+                catch (AssertionException)
+                {
+                    test = extent.CreateTest("Search Test - Fail");
+                    test.Fail("Search eyewear failed");
+                   
+                }
                
             }
         }

@@ -2,7 +2,9 @@
 using BunnyCartTest.Utilities;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.DevTools;
 using OpenQA.Selenium.Edge;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +19,10 @@ namespace BunnyCartTest.TestScript
         [Test]
         public void SignUpTest()
         { 
+             
             BunnyCartHomePage home = new BunnyCartHomePage(driver);
             home.ClickCreateAnAccountLink();
+
             try
             {
                 Assert.That(driver.FindElement(By.XPath("//div[@class='modal-inner-wrap']//following::h1[2]")).Text,
